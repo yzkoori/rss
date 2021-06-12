@@ -136,7 +136,7 @@ async def generate_image(url_list):
         io = BytesIO()
         MAX_size = (1200, 1200)
         raw_images[0].thumbnail(MAX_size)
-        raw_images[0].save(io, 'jpeg')
+        raw_images[0].save(io, 'png')
         return io.getvalue()
 
     dest_img = None
@@ -172,7 +172,7 @@ async def generate_image(url_list):
             y = (i // row) * (box_size + border)
             dest_img.paste(im, (x, y))
     io = BytesIO()
-    dest_img.save(io, 'jpeg')
+    dest_img.save(io, 'png')
     return io.getvalue()
 
 def get_published_time(item):
