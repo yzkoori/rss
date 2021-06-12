@@ -134,7 +134,8 @@ async def generate_image(url_list):
         return None
     elif num == 1:
         io = BytesIO()
-        raw_images[0].thumbnail((1200, 1200))
+        MAX_size = (1200, 1200)
+        raw_images[0].thumbnail(MAX_size)
         raw_images[0].save(io, 'jpeg')
         return io.getvalue()
 
