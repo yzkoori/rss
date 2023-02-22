@@ -79,7 +79,7 @@ def load_data():
 load_data()
 
 default_rss = [
-    data['rsshub'] + '/bilibili/user/dynamic/353840826',    #pcr官方号
+    # data['rsshub'] + '/bilibili/user/dynamic/353840826',    #pcr官方号
     ]
 
 async def query_data(url, proxy=''):
@@ -122,7 +122,7 @@ async def generate_image(url_list):
         if image:
             try:
                 im = Image.open(BytesIO(image))
-                im = im.convert("RGBA")
+                im = im.convert("RGB")
                 raw_images.append(im)
                 num += 1
             except:
@@ -136,7 +136,7 @@ async def generate_image(url_list):
         io = BytesIO()
         MAX_size = (1200, 1200)
         raw_images[0].thumbnail(MAX_size)
-        raw_images[0].save(io, 'png')
+        raw_images[0].save(io, 'jpeg')
         return io.getvalue()
 
     dest_img = None
@@ -153,7 +153,7 @@ async def generate_image(url_list):
         row = 2
         width = 800 + border
         height = math.ceil(num / 2) * (400 + border) - border
-    dest_img = Image.new('RGBA', (width, height), (255, 255, 255, 0))
+    dest_img = Image.new('RGB', (width, height), (255, 255, 255, 0))
 
     for i in range(num):
         im = raw_images[i]
@@ -172,7 +172,7 @@ async def generate_image(url_list):
             y = (i // row) * (box_size + border)
             dest_img.paste(im, (x, y))
     io = BytesIO()
-    dest_img.save(io, 'png')
+    dest_img.save(io, 'jpeg')
     return io.getvalue()
 
 def get_published_time(item):
@@ -409,6 +409,6 @@ async def rss_cmd(bot, ev):
         msg = '参数错误'
     await bot.send(ev, msg)
 
-@sv.scheduled_job('interval', minutes=5)
+@sv.scheduled_job('interval', minutes=30)
 async def job():
     await group_process()
